@@ -2,6 +2,7 @@
 
 # --- 1. Import Necessary Libraries ---
 from flask import Flask, request, jsonify
+from flask import render_template
 from flask_cors import CORS # To handle requests from the browser
 import yfinance as yf # To fetch stock data
 import numpy as np
@@ -54,6 +55,11 @@ def build_and_train_model(data):
     model.fit(x_train, y_train, batch_size=1, epochs=5)
 
 # --- 4. Define the API Endpoint ---
+@app.route('/')
+def home():
+    """Serves the frontend HTML file."""
+    return render_template('index.html')
+
 @app.route('/predict', methods=['POST'])
 def predict_stock():
     """
@@ -160,4 +166,5 @@ def predict_stock():
 # --- 5. Run the Server ---
 if __name__ == '__main__':
     print("Starting Flask server... Please wait for the model to initialize.")
+
     app.run(debug=True, port=5000)
